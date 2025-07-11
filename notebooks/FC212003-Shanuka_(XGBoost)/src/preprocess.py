@@ -28,6 +28,6 @@ merged_df['city_name'] = le.fit_transform(merged_df['city_name'])
 merged_df.fillna(method='ffill', inplace=True)
 
 # Optional: Save the cleaned and merged dataset
-merged_df.to_csv("data/merged_cleaned_weather_data.csv", index=False)
+merged_df.to_csv("notebooks/FC212003-Shanuka_(XGBoost)/data/merged_cleaned_weather_data.csv", index=False)
 
-print("Preprocessing complete. File saved as 'data/merged_cleaned_weather_data.csv'")
+print("Preprocessing complete. File saved as 'merged_cleaned_weather_data.csv'")
