@@ -3,6 +3,9 @@ FROM python:3.12
 # Set working directory
 WORKDIR /app
 
+# Install system dependencies needed for some python packages
+RUN apt-get update && apt-get install -y build-essential gcc
+
 # Copy dependencies
 COPY requirements.txt .
 
