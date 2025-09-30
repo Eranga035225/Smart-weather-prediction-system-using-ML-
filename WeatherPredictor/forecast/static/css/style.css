@@ -100,5 +100,62 @@ main.clear {
 }
 
 
+.side-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width:250px;
+  padding: 40px;
+  height: 100%;
+
+  border-right: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(22.5px);
+
+}
+.search-container {
+  width: 100%;
+  padding-bottom: 6px;
+  margin-bottom : 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-bottom: 1px solid #ffffff;
+
+
+}
+
+
+.geo-input {
+  all: unset;
+  flex: 1;
+  width: 100%;
+
+  margin: 0 10px;
+
+  color: rgba(255, 255, 255, 1);
+  font-size: 13px;
+
+
+}
+
+.geo-input::placeholder {
+  color:rgba(255, 255, 255, 0.5);
+
+}
+
+.search-button {
+  border: none;
+  background:transparent;
+  -webkit-animation: none;
+  height: 22px;
+  cursor: pointer;
+}
+
+
+
 
 
