@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  line-height: normal;
+
+}
+
+body{
+  background-color: #080808;
+  display : flex;
+  align-items: center;
+  justify-content : center;
+  height: 100vh;
+  width: 100vw;
+}
+
+
+main{
+  position: absolute;
+  display:flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin: 0 auto;
+  width: fit-content;
+  height: 635px;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 25px;
+  overflow: hidden;
+
+}
+
+main.clouds {
+  background-image: url('../img/cloudy.jpeg');
+
+}
+
+main.sunny {
+  background-image: url('../img/sunny.jpeg');
+}
+main.overcast {
+  background-image: url('../img/overcast.jpeg');
+}
+
+main.mist, main.Mist, main.haze, main.smoke {
+  background-image: url('../img/mist.jpeg');
+}
+
+main.rain {
+  background-image: url('../img/rain.jpeg');
+}
+
+main.snow {
+  background-image: url('../img/snow.jpeg');
+}
+
+main.sleet {
+  background-image: url('../img/sleet.jpeg');
+}
+
+main.drizzle {
+  background-image: url('../img/drizzle.jpeg');
+}
+
+main.thunder,
+main.thundery {
+  background-image: url('../img/thunder.jpeg');
+}
+
+main.blizzard {
+  background-image: url('../img/blizzard.jpeg');
+}
+
+main.fog{
+  background-image: url('../img/fog.jpeg');
+}
+
+main.ice {
+  background-image: url('../img/ice.jpeg');
+
+}
+
+main.shower {
+  background-image: url('../img/shower.jpeg');
+
+}
+
+main.showers {
+  background-image: url('../img/showers.jpeg');
+}
+
+main.clear {
+  background-image: url('../img/clear.jpeg');
+}
+
+
+
+
