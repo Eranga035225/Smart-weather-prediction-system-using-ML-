@@ -156,6 +156,84 @@ main.clear {
 }
 
 
+/* Day stats */
+
+.day-stats {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-bottom: 60px;
+  z-index: 2;
+
+}
+
+.day-stats__temperature {
+  color: #fff;
+  font-size: 50px;
+  line-height: 100%;
+
+}
+
+
+.day-stats__temperature_value{
+
+  line-height: 100%;
+
+}
+
+.day-stats__feelslike{
+  color:#fff;
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 6px;
+  margin-top: 9px;
+
+}
+
+.day-stats_conditons{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  list-style:none;
+  width: 100%;
+  margin-top:20px;
+  
+}
+
+.day-stats_conditons li{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+
+  width: 100%;
+
+
+}
+
+.day-stats__condition{
+  color:#fff;
+  font-size: 24px;
+  line-height: 100%
+
+
+}
+
+.day-stats__condition_text{
+  color:#fff;
+  font-size: 13px;
+
+}
+
+
+
+
+
+
 
 
 
