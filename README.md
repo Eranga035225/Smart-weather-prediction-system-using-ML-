@@ -1,102 +1,83 @@
-🌦️ Smart Weather Prediction System
+# 🌦️ Smart Weather Prediction System  
 
-Check our demo video of our Smart Weather Prediciton System
+check this demo video to check the functionality of our weather prediciton system
 
+## 📌 Project Overview  
+This is a **Weather Prediction Web Application** built with **Django and Machine Learning**.  
+- Fetches **current weather data** from an external API.  
+- Uses a trained ML model to **predict rain and other conditions**.  
+- Provides a user-friendly **web interface** for forecasting.  
 
-📌 Project Overview
+---
 
-This project is a Weather Prediction Web Application built with Django and Machine Learning.
+## ⚙️ Features  
+- 🌐 Live weather data from [OpenWeatherMap API / your API].  
+- 🤖 Machine Learning model trained on historical datasets.  
+- 📊 Predicts rainfall, humidity, and temperature trends.  
+- 🖥️ Django-based web app with interactive UI.  
 
-Fetches current weather conditions from an external API.
+---
 
-Uses a trained ML model to predict rain and other conditions.
+## 🛠️ Tech Stack  
+- **Backend:** Django (Python 3.12)  
+- **Frontend:** HTML, CSS, Bootstrap  
+- **Machine Learning:** scikit-learn, pandas, numpy  
+- **API:** OpenWeatherMap (or your chosen API)  
+- **Database:** SQLite  
 
-Provides a user-friendly web interface for weather forecasting.
-⚙️ Features
+---
 
-🌐 Fetches live weather data from [OpenWeatherMap API / your chosen API].
-
-🤖 Machine Learning model trained on historical weather datasets.
-
-📊 Predicts rain / humidity / temperature trends.
-
-🖥️ Django-based web application with interactive UI.
-
-📈 Graphical representation of results (optional).
-
-🛠️ Tech Stack
-
-Backend: Django (Python 3.12)
-
-Frontend: HTML, CSS, Bootstrap (or your stack)
-
-Machine Learning: scikit-learn, pandas, numpy
-
-API: OpenWeatherMap (or whichever you used)
-
-Database: SQLite (default in Django)
-
-📂 Project Structure
-
-WeatherPredictor/
-│── forecast/           # Django app (views, models, ML integration)
-│── templates/          # HTML templates
-│── static/             # CSS, JS, images
-│── venv/               # Virtual environment
-│── manage.py
-│── requirements.txt    # Dependencies
+## 📂 Project Structure  
+For the WeatherPredictor app check follwing path in the repo
+│── WeatherPredictor/forecast # Django app (views, models, ML integration)
 
 
-#🚀 Installation & Setup
+---
 
-Clone the repository
+## 🚀 Installation & Setup  
 
+1. **Clone the repository**  
+```bash
 git clone https://github.com/your-username/Smart-weather-prediction-system.git
 cd Smart-weather-prediction-system
-
-
-Create & activate virtual environment
 
 python -m venv venv
 .\venv\Scripts\Activate.ps1   # PowerShell
 
-
-Install dependencies
-
 pip install -r requirements.txt
-
-
-Run migrations
 
 python manage.py migrate
 
-
-Start the development server
-
 python manage.py runserver
 
+Open in browser
+```
 
-Open in browser: http://127.0.0.1:8000
 
 📊 Machine Learning Model
 
-Trained on historical weather dataset (temperature, humidity, wind, rainfall).
+1) Trained on historical weather dataset (temperature, humidity, wind, rainfall).
 
-Model used: Logistic Regression / Random Forest / your chosen model.
+2) Model used: Logistic Regression / Random Forest 
 
-Predictions may vary depending on dataset quality and API fluctuations.
+3) Predictions depend on dataset quality and real-time API inputs.
 
 ⚠️ Limitations
 
-Predictions are not always 100% accurate due to dataset constraints.
+1) Predictions are not always 100% accurate due to dataset constraints.
 
-Real-world weather is influenced by many complex factors not covered in the dataset.
+2) Weather forecasting is influenced by complex factors not in the dataset.
 
-This is a university project – accuracy is secondary to demonstrating ML integration.
+3) This is a university project, focusing on ML + API integration.
+
+
+
+
 
 
 
 Happy Predicting! ☕️
+
 
 
 
