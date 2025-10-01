@@ -62,7 +62,7 @@ def prepare_data(data):
 def train_rain_model(X,y):
   #split data
   X_train, X_test, y_train,y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-  model = RandomForestClassifier(n_estimators=100, random_state=42)
+  model = RandomForestClassifier(n_estimators=100, random_state=42,n_jobs=1)
   model.fit(X_train, y_train)
 
   y_pred = model.predict(X_test) #to make predicitons on test set
@@ -87,7 +87,7 @@ def prepare_regression_data(data,feature):
 
 #5.Train regression model
 def train_regression_model(X,y):
-  model = RandomForestRegressor(n_estimators=100, random_state=42)
+  model = RandomForestRegressor(n_estimators=100, random_state=42,n_jobs=1)
   model.fit(X, y)
   return model
 
@@ -101,7 +101,7 @@ def predict_future(model, current_value):
 
     predictions.append(next_value[0])
 
-    return predictions[1:]
+  return predictions[1:]
   
 
 #7.Weather Analysis
@@ -221,9 +221,9 @@ def weather_view(request):
 
         }
 
-        return render(request,'weather.html', context)
+        return render(request,'forecast/weather.html', context)
   
-    return render(request, 'weather.html')
+    return render(request, 'forecast/weather.html')
   
 
 

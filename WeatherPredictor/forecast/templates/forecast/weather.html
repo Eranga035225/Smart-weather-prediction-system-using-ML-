@@ -38,13 +38,15 @@
         </h3>
         <ul class="day-stats_conditions">
           <li>
-            <p class="day-stats_condition">
+            <p class="day-stats__condition">
+              <i class="bi bi-moisture"></i>&nbsp;
               <span class="day-stats__humidity">{{ humidity }}</span>%
             </p>
             <p class="day-stats__condition_text">of humidity</p>
           </li>
           <li>
             <p class="day-stats__condition">
+              <i class="bi bi-cloud"></i>&nbsp;
               <span class="day-stats__clouds">{{ clouds }}</span>%
             </p>
             <p class="day-stats__condition_text">of Clouds</p>
@@ -77,52 +79,52 @@
         <span class="weatherWindKph">{{ wind }}</span> kilometers per hour. pressure
         is <span class="weatherPressure">{{ pressure }}</span> mb. Visibility is 
         <span class="weatherSnow">{{ visibility }}</span>. Maximum temperature is
-        <span class="weatherMaxTemp">{{ maxTemp }}</span>. Minimum temperature is 
-        <span class="weatherMinTemp">{{ MinTemp }}</span>.
+        <span class="weatherMaxTemp">{{ MaxTemp }}</span>&#176;C. Minimum temperature is 
+        <span class="weatherMinTemp">{{ MinTemp }}</span>&#176;C.
 
       </p>
 
       <ul class="forecast">
-        <li clas="forecast-item">
+        <li class="forecast-item">
           <p class="forecast-time">{{ time1 }}</p>
           <p class="forecast-temperature">
-            &nbsp; <span class="forecast-temperatureValue">{{ temp1 }} </span>&#176;C
+            &nbsp; <span class="forecast-temperatureValue">{{ temp1 }} </span>&#176;
           </p>
           <p class="forecastWindText">
             Humidity : <span class="forecast-humidityValue">{{ hum1 }}</span>
           </p>
         </li>
-          <li clas="forecast-item">
+          <li class="forecast-item">
           <p class="forecast-time">{{ time2 }}</p>
           <p class="forecast-temperature">
-            &nbsp; <span class="forecast-temperatureValue">{{ temp2 }} </span>&#176;C
+            &nbsp; <span class="forecast-temperatureValue">{{ temp2 }} </span>&#176;
           </p>
           <p class="forecastWindText">
             Humidity : <span class="forecast-humidityValue">{{ hum2 }}</span>
           </p>
         </li>
-          <li clas="forecast-item">
+          <li class="forecast-item">
           <p class="forecast-time">{{ time3 }}</p>
           <p class="forecast-temperature">
-            &nbsp; <span class="forecast-temperatureValue">{{ temp3 }} </span>&#176;C
+            &nbsp; <span class="forecast-temperatureValue">{{ temp3 }} </span>&#176;
           </p>
           <p class="forecastWindText">
             Humidity : <span class="forecast-humidityValue">{{ hum3 }}</span>
           </p>
         </li>
-          <li clas="forecast-item">
+          <li class="forecast-item">
           <p class="forecast-time">{{ time4 }}</p>
           <p class="forecast-temperature">
-            &nbsp; <span class="forecast-temperatureValue">{{ temp4 }} </span>&#176;C
+            &nbsp; <span class="forecast-temperatureValue">{{ temp4 }} </span>&#176;
           </p>
           <p class="forecastWindText">
             Humidity : <span class="forecast-humidityValue">{{ hum4 }}</span>
           </p>
         </li>
-          <li clas="forecast-item">
+          <li class="forecast-item">
           <p class="forecast-time">{{ time5 }}</p>
           <p class="forecast-temperature">
-            &nbsp; <span class="forecast-temperatureValue">{{ temp5 }} </span>&#176;C
+            &nbsp; <span class="forecast-temperatureValue">{{ temp5 }} </span>&#176;
           </p>
           <p class="forecastWindText">
             Humidity : <span class="forecast-humidityValue">{{ hum5 }}</span>
