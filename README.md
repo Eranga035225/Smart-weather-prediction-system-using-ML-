@@ -1,107 +1,103 @@
-# 🌦️ Smart Weather Prediction System using Machine Learning
+🌦️ Smart Weather Prediction System
 
-This project aims to build an intelligent weather prediction system using machine learning techniques. It leverages historical weather data to forecast parameters like temperature, humidity, rainfall, etc.
+Check our demo video of our Smart Weather Prediciton System
 
----
-# 🐋 How to Run the Smart Weather Prediction System Using Docker
 
-This guide lets you run your Smart Weather Prediction System project inside a Docker container using a Jupyter Notebook environment.
+📌 Project Overview
 
----
+This project is a Weather Prediction Web Application built with Django and Machine Learning.
 
-## ✅ 1. Prerequisites
+Fetches current weather conditions from an external API.
 
-- **Install Docker Desktop**:\
-  [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
+Uses a trained ML model to predict rain and other conditions.
 
-- Verify installation:
+Provides a user-friendly web interface for weather forecasting.
+⚙️ Features
 
-  ```bash
-  docker --version
-  ```
+🌐 Fetches live weather data from [OpenWeatherMap API / your chosen API].
 
----
+🤖 Machine Learning model trained on historical weather datasets.
 
-## 📁 2. Ensure the Following Project Structure
+📊 Predicts rain / humidity / temperature trends.
 
-```
-Smart-weather-prediction-system-using-ML/
-├── data/                    # CSV files
-├── notebooks/              # Jupyter notebooks
-├── requirements.txt        # Python dependencies
-├── Dockerfile              # Docker build config (create this)
-```
+🖥️ Django-based web application with interactive UI.
 
----
+📈 Graphical representation of results (optional).
 
-## 🧱 3. Create a Dockerfile
+🛠️ Tech Stack
 
-In the project root, create a file named `Dockerfile` and paste:
+Backend: Django (Python 3.12)
 
-```Dockerfile
-FROM python:3.12
+Frontend: HTML, CSS, Bootstrap (or your stack)
 
-WORKDIR /app
+Machine Learning: scikit-learn, pandas, numpy
 
-COPY . .
+API: OpenWeatherMap (or whichever you used)
 
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt && \
-    pip install notebook jupyter
+Database: SQLite (default in Django)
 
-EXPOSE 8888
+📂 Project Structure
 
-CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
-```
+WeatherPredictor/
+│── forecast/           # Django app (views, models, ML integration)
+│── templates/          # HTML templates
+│── static/             # CSS, JS, images
+│── venv/               # Virtual environment
+│── manage.py
+│── requirements.txt    # Dependencies
 
----
 
-## 📦 4. Build the Docker Image
+#🚀 Installation & Setup
 
-From the project root:
+Clone the repository
 
-```bash
-docker build -t smart-weather-predictor .
-```
+git clone https://github.com/your-username/Smart-weather-prediction-system.git
+cd Smart-weather-prediction-system
 
----
 
-## ▶️ 5. Run the Docker Container
+Create & activate virtual environment
 
-```bash
-docker run -it -p 8888:8888 smart-weather-predictor
-```
+python -m venv venv
+.\venv\Scripts\Activate.ps1   # PowerShell
 
-You will see a terminal output with a URL like:
 
-```
-http://127.0.0.1:8888/?token=your_token_here
-```
+Install dependencies
 
-Copy this URL and paste it into your browser.
+pip install -r requirements.txt
 
----
 
-## 📅 6. Open and Run the Notebook
+Run migrations
 
-In Jupyter UI:
+python manage.py migrate
 
-- Navigate to: `notebooks/01_lightgbm_model.ipynb`
-- Run the notebook cells to execute the model.
 
----
+Start the development server
 
-## ♻️ Rebuild if Code Changes
+python manage.py runserver
 
-If you change any dependencies or major code:
 
-```bash
-docker build -t smart-weather-predictor .
-```
+Open in browser: http://127.0.0.1:8000
 
----
+📊 Machine Learning Model
+
+Trained on historical weather dataset (temperature, humidity, wind, rainfall).
+
+Model used: Logistic Regression / Random Forest / your chosen model.
+
+Predictions may vary depending on dataset quality and API fluctuations.
+
+⚠️ Limitations
+
+Predictions are not always 100% accurate due to dataset constraints.
+
+Real-world weather is influenced by many complex factors not covered in the dataset.
+
+This is a university project – accuracy is secondary to demonstrating ML integration.
+
+
 
 Happy Predicting! ☕️
+
 
 
 
