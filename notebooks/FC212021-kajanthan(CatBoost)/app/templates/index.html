@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <style>
+    body {
+      background-image: url('/static/bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col relative text-white">
+  <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+
+  <!-- Header -->
+  <header
+    class="relative z-10 py-4 px-6 sm:px-10 flex items-center justify-between border-b border-gray-600 backdrop-blur-md bg-black/40">
+    <h1 class="text-3xl font-bold drop-shadow-lg">Weather App</h1>
+    <span class="text-sm sm:text-lg drop-shadow-lg text-gray-300">Group 7: The Gradient Geniuses</span>
+  </header>
+
+  <div class="flex flex-1 relative z-10 flex-col md:flex-row gap-6 lg:gap-10 p-6">
+    <!-- Sidebar -->
+    <aside class="w-full md:w-2/5 lg:w-1/4 pe-6 flex flex-col pt-6 md:pt-15 border-r md:border-r-2 border-r-gray-600">
+      <form id="weatherForm" class="space-y-4 backdrop-blur-lg bg-white/5 rounded-2xl p-4 shadow-xl relative">
+        <div class="relative">
+          <label for="city" class="block mb-1 text-gray-200">City Name</label>
+          <input type="text" id="city" autocomplete="off"
+            class="w-full bg-transparent border border-gray-400 rounded-xl px-3 py-2 text-white placeholder-gray-300"
+            value="{{ default_city }}">
+          <ul id="suggestions"
+            class="absolute top-full left-0 w-full bg-gray-900 text-white rounded-md shadow-lg max-h-40 overflow-y-auto hidden z-50">
+          </ul>
+        </div>
+
+        <div>
+          <label for="date" class="block mb-1 text-gray-200">Date</label>
+          <input type="date" id="date"
+            class="w-full bg-transparent border border-gray-400 rounded-xl px-3 py-2 text-white"
+            value="{{ default_date }}">
+        </div>
+
+        <button type="submit"
+          class="w-full py-2 rounded-xl bg-gray-900 hover:bg-gray-950 cursor-pointer shadow-lg transition-all">
+          Get Prediction
+        </button>
+      </form>
+    </aside>
+
+    <!-- Main Section -->
+    <main class="flex-1 flex flex-col gap-6 lg:mt-20">
+      <!-- Prediction Header -->
+      <section id="predictionSection"
+        class="backdrop-blur-lg bg-white/10 rounded-3xl p-6 shadow-2xl flex flex-col gap-6">
+        <div class="flex flex-col lg:flex-row lg:justify-between items-start">
+          <h2 class="text-2xl sm:text-3xl font-semibold drop-shadow-lg flex items-center gap-3">
+            <span class="material-symbols-outlined text-blue-400">cloud</span>
+            Prediction Results
+          </h2>
+
+          <div id="cityInfo"
+            class="text-gray-300 font-medium text-sm sm:text-base text-center lg:text-right mt-2 lg:mt-0 border bordrer-green-600 bg-slate-700 px-3 py-1 rounded-2xl">
+            {{ default_city }} on {{ default_date }} || Location ID: {{ default_location_id }}
+          </div>
+        </div>
+
+        <!-- Prediction Grid -->
+        <div id="predictionGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Temperature -->
+          <div
+            class="flex flex-col items-center justify-center gap-3 backdrop-blur-md bg-gradient-to-tr from-red-400/20 to-red-600/20 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-4xl text-red-400">thermometer</span>
+            <div class="text-gray-200 font-medium">Temperature</div>
+            <div class="text-xl sm:text-2xl font-bold" id="temp_mean">{{ prediction.precip_sum }} °C</div>
+          </div>
+
+          <!-- Precipitation -->
+          <div
+            class="flex flex-col items-center justify-center gap-3 backdrop-blur-md bg-gradient-to-tr from-blue-400/20 to-blue-600/20 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-4xl text-blue-400">water_drop</span>
+            <div class="text-gray-200 font-medium">Precipitation</div>
+            <div class="text-xl sm:text-2xl font-bold" id="precip_sum">{{ prediction.temp_mean }} mm</div>
+          </div>
+
+          <!-- Rain -->
+          <div
+            class="flex flex-col items-center justify-center gap-3 backdrop-blur-md bg-gradient-to-tr from-indigo-400/20 to-indigo-600/20 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-4xl text-indigo-400">rainy</span>
+            <div class="text-gray-200 font-medium">Rain</div>
+            <div class="text-xl sm:text-2xl font-bold" id="rain_sum">{{ prediction.rain_sum }} mm</div>
+          </div>
+
+          <!-- Wind Speed -->
+          <div
+            class="flex flex-col items-center justify-center gap-3 backdrop-blur-md bg-gradient-to-tr from-green-400/20 to-green-600/20 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-4xl text-green-400">windy</span>
+            <div class="text-gray-200 font-medium">Wind Speed</div>
+            <div class="text-xl sm:text-2xl font-bold" id="wind_speed_max">{{ prediction.wind_speed_max }} km/h</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="relative z-10 text-center py-4 border-t border-gray-600 text-gray-300 text-sm backdrop-blur-md bg-black/40">
+    © 2025 Weather MI System — The Gradient Geniuses
+  </footer>
+
+  <!-- JS -->
+  <script>
+    const cities = ["Colombo", "Gampaha", "Kalutara", "Kandy", "Matale", "Nuwara Eliya", "Galle", "Matara",
+      "Hambantota", "Jaffna", "Kilinochchi", "Mannar", "Vavuniya", "Mullaitivu", "Batticaloa", "Ampara",
+      "Trincomalee", "Kurunegala", "Puttalam", "Anuradhapura", "Polonnaruwa", "Badulla", "Moneragala",
+      "Ratnapura", "Kegalle", "Welimada", "Bandarawela"];
+
+    const cityInput = document.getElementById("city");
+    const suggestionsList = document.getElementById("suggestions");
+
+    cityInput.addEventListener("input", () => {
+      let value = cityInput.value.trim().toLowerCase();
+      suggestionsList.innerHTML = "";
+      if (!value) {
+        suggestionsList.classList.add("hidden");
+        return;
+      }
+      let filtered = cities.filter(c => c.toLowerCase().includes(value));
+      if (filtered.length === 0) {
+        suggestionsList.classList.add("hidden");
+        return;
+      }
+      suggestionsList.classList.remove("hidden");
+      filtered.forEach(city => {
+        let li = document.createElement("li");
+        li.textContent = city;
+        li.className = "px-3 py-2 cursor-pointer hover:bg-gray-700 rounded-md";
+        li.addEventListener("click", () => {
+          cityInput.value = city;
+          suggestionsList.innerHTML = "";
+          suggestionsList.classList.add("hidden");
+        });
+        suggestionsList.appendChild(li);
+      });
+    });
+
+    document.addEventListener("click", e => {
+      if (!cityInput.contains(e.target)) {
+        suggestionsList.classList.add("hidden");
+      }
+    });
+
+    document.getElementById("weatherForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const city = cityInput.value;
+      const date = document.getElementById("date").value;
+      try {
+        const res = await fetch("/predict", {
+          method: "POST",
+          body: new URLSearchParams({
+            city_name: city,
+            date: date
+          })
+        });
+        const data = await res.json();
+        if (data.error) {
+          alert(data.error);
+          return;
+        }
+
+        // Update prediction cards
+        document.getElementById("temp_mean").textContent = data.prediction.temp_mean + " °C";
+        document.getElementById("precip_sum").textContent = data.prediction.precip_sum + " mm";
+        document.getElementById("rain_sum").textContent = data.prediction.rain_sum + " mm";
+        document.getElementById("wind_speed_max").textContent = data.prediction.wind_speed_max + " km/h";
+
+        // Update city/date/location info dynamically
+        document.getElementById("cityInfo").textContent =
+          `${city} on ${date} || Location ID: ${data.location_id}`;
+
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+
+</html>
