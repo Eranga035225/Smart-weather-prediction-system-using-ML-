@@ -23,7 +23,7 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 # ---------------- Load Model ----------------
 model = CatBoostRegressor()
-model.load_model(os.path.join(BASE_DIR, "models/catboost_weather_model.cbm"))
+model.load_model(os.path.join(BASE_DIR, "models/catboost_model.cbm"))
 
 # ---------------- Load Weather Data ----------------
 df_weather = pd.read_csv(os.path.join(BASE_DIR, "data/weatherData.csv"))
@@ -32,6 +32,7 @@ df_weather = df_weather.dropna(subset=['date']).drop_duplicates().reset_index(dr
 df_weather['dayofyear'] = df_weather['date'].dt.dayofyear
 df_weather['weekday'] = df_weather['date'].dt.weekday
 
+# Rename columns
 rename_map = {
     'temperature_2m_mean (°C)': 'temp_mean',
     'precipitation_sum (mm)': 'precip_sum',
@@ -40,7 +41,9 @@ rename_map = {
     'weather_code (wmo code)': 'weather_code'
 }
 df_weather = df_weather.rename(columns=rename_map)
-targets = ['temp_mean', 'rain_sum', 'precip_sum', 'wind_speed_max']
+
+# Targets
+targets = ['rain_sum', 'precip_sum', 'temp_mean', 'wind_speed_max']
 
 # Historical averages
 for target in targets:
@@ -65,46 +68,68 @@ def make_prediction(location_id: int, date: str):
     date_obj = pd.to_datetime(date)
     dayofyear = date_obj.dayofyear
     weekday = date_obj.weekday()
+    month = date_obj.month
+
+    # Cyclic features
     dayofyear_sin = np.sin(2 * np.pi * dayofyear / 365)
     dayofyear_cos = np.cos(2 * np.pi * dayofyear / 365)
+    month_sin = np.sin(2 * np.pi * month / 12)
+    month_cos = np.cos(2 * np.pi * month / 12)
+    weekday_sin = np.sin(2 * np.pi * weekday / 7)
+    weekday_cos = np.cos(2 * np.pi * weekday / 7)
 
     # Most frequent weather_code
-    weather_series = df_weather[(df_weather['location_id']==location_id)&(df_weather['dayofyear']==dayofyear)]['weather_code'].mode()
-    weather_code = int(weather_series[0]) if len(weather_series)>0 else 1
+    weather_series = df_weather[
+        (df_weather['location_id']==location_id) & 
+        (df_weather['dayofyear']==dayofyear)
+    ]['weather_code'].mode()
+    weather_code = int(weather_series[0]) if len(weather_series) > 0 else 1
 
     # Historical averages
     hist_values = {}
     for target in targets:
-        hist = df_weather[(df_weather['location_id']==location_id)&(df_weather['dayofyear']==dayofyear)][f'{target}_hist'].mean()
+        hist = df_weather[
+            (df_weather['location_id']==location_id) & 
+            (df_weather['dayofyear']==dayofyear)
+        ][f'{target}_hist'].mean()
         hist_values[f'{target}_hist'] = hist if not np.isnan(hist) else 0
 
     # Input DataFrame
     X_input = pd.DataFrame([{
         'location_id': location_id,
         'year': date_obj.year,
-        'month': date_obj.month,
+        'month': month,
         'weather_code': weather_code,
         'weekday': weekday,
         'dayofyear': dayofyear,
         'dayofyear_sin': dayofyear_sin,
         'dayofyear_cos': dayofyear_cos,
+        'month_sin': month_sin,
+        'month_cos': month_cos,
+        'weekday_sin': weekday_sin,
+        'weekday_cos': weekday_cos,
         'temp_mean_hist': hist_values['temp_mean_hist'],
         'rain_sum_hist': hist_values['rain_sum_hist'],
         'precip_sum_hist': hist_values['precip_sum_hist'],
         'wind_speed_max_hist': hist_values['wind_speed_max_hist']
     }])
 
+    # Convert categorical features
     X_input = X_input.astype({'location_id':'category','weather_code':'category'})
+
+    # Ensure all features present
+    for f in features:
+        if f not in X_input.columns:
+            X_input[f] = 0
+
     X_input = X_input[features]
     pool = Pool(X_input, cat_features=cat_features)
     y_pred = model.predict(pool)
 
-    return {
-        "temp_mean": round(y_pred[0][0],2),
-        "rain_sum": round(y_pred[0][1],2),
-        "precip_sum": round(y_pred[0][2],2),
-        "wind_speed_max": round(y_pred[0][3],2)
-    }
+    # Handle 2D / 1D prediction output
+    if y_pred.ndim == 1:
+        return dict(zip(targets, np.round(y_pred, 2)))
+    return dict(zip(targets, np.round(y_pred[0], 2)))
 
 # ---------------- Routes ----------------
 @app.get("/")
