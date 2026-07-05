@@ -1,107 +1,84 @@
-# 🌦️ Smart Weather Prediction System using Machine Learning
+# 🌦️ Smart Weather Prediction System  
 
-This project aims to build an intelligent weather prediction system using machine learning techniques. It leverages historical weather data to forecast parameters like temperature, humidity, rainfall, etc.
+check this demo video to check the functionality of our weather prediciton system
 
----
-# 🐋 How to Run the Smart Weather Prediction System Using Docker
-
-This guide lets you run your Smart Weather Prediction System project inside a Docker container using a Jupyter Notebook environment.
-
----
-
-## ✅ 1. Prerequisites
-
-- **Install Docker Desktop**:\
-  [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
-
-- Verify installation:
-
-  ```bash
-  docker --version
-  ```
+## 📌 Project Overview  
+This is a **Weather Prediction Web Application** built with **Django and Machine Learning**.  
+- Fetches **current weather data** from an external API.  
+- Uses a trained ML model to **predict rain and other conditions**.  
+- Provides a user-friendly **web interface** for forecasting.  
 
 ---
 
-## 📁 2. Ensure the Following Project Structure
-
-```
-Smart-weather-prediction-system-using-ML/
-├── data/                    # CSV files
-├── notebooks/              # Jupyter notebooks
-├── requirements.txt        # Python dependencies
-├── Dockerfile              # Docker build config (create this)
-```
+## ⚙️ Features  
+- 🌐 Live weather data from [OpenWeatherMap API / your API].  
+- 🤖 Machine Learning model trained on historical datasets.  
+- 📊 Predicts rainfall, humidity, and temperature trends.  
+- 🖥️ Django-based web app with interactive UI.  
 
 ---
 
-## 🧱 3. Create a Dockerfile
-
-In the project root, create a file named `Dockerfile` and paste:
-
-```Dockerfile
-FROM python:3.12
-
-WORKDIR /app
-
-COPY . .
-
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt && \
-    pip install notebook jupyter
-
-EXPOSE 8888
-
-CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
-```
+## 🛠️ Tech Stack  
+- **Backend:** Django (Python 3.12)  
+- **Frontend:** HTML, CSS, Bootstrap  
+- **Machine Learning:** scikit-learn, pandas, numpy  
+- **API:** OpenWeatherMap (or your chosen API)  
+- **Database:** SQLite  
 
 ---
 
-## 📦 4. Build the Docker Image
+## 📂 Project Structure  
+For the WeatherPredictor app check follwing path in the repo
+│── WeatherPredictor/forecast # Django app (views, models, ML integration)
 
-From the project root:
 
+---
+
+## 🚀 Installation & Setup  
+
+1. **Clone the repository**  
 ```bash
-docker build -t smart-weather-predictor .
+git clone https://github.com/your-username/Smart-weather-prediction-system.git
+cd Smart-weather-prediction-system
+
+python -m venv venv
+.\venv\Scripts\Activate.ps1   # PowerShell
+
+pip install -r requirements.txt
+
+python manage.py migrate
+
+python manage.py runserver
+
+Open in browser
 ```
 
----
 
-## ▶️ 5. Run the Docker Container
+📊 Machine Learning Model
 
-```bash
-docker run -it -p 8888:8888 smart-weather-predictor
-```
+1) Trained on historical weather dataset (temperature, humidity, wind, rainfall).
 
-You will see a terminal output with a URL like:
+2) Model used: Logistic Regression / Random Forest 
 
-```
-http://127.0.0.1:8888/?token=your_token_here
-```
+3) Predictions depend on dataset quality and real-time API inputs.
 
-Copy this URL and paste it into your browser.
+⚠️ Limitations
 
----
+1) Predictions are not always 100% accurate due to dataset constraints.
 
-## 📅 6. Open and Run the Notebook
+2) Weather forecasting is influenced by complex factors not in the dataset.
 
-In Jupyter UI:
+3) This is a university project, focusing on ML + API integration.
 
-- Navigate to: `notebooks/01_lightgbm_model.ipynb`
-- Run the notebook cells to execute the model.
 
----
 
-## ♻️ Rebuild if Code Changes
 
-If you change any dependencies or major code:
 
-```bash
-docker build -t smart-weather-predictor .
-```
 
----
 
 Happy Predicting! ☕️
+
+
 
 
 

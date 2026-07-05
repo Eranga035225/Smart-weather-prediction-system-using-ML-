@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather Prediction</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="/static/web.png" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <style>
+    body {
+      background-image: url('/static/bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col text-white relative">
+  <!-- Background overlay -->
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+
+  <!-- Header -->
+  <header
+    class="relative z-10 py-4 px-3 md:px-6 flex items-center justify-between border-b border-gray-700 bg-black/50 backdrop-blur-md">
+    <h1 class="text-2xl font-bold text-teal-400 tracking-wide">Weather App</h1>
+    <span class="md:text-sm text-[12px] text-gray-300"> <i>Group 7: The Gradient Geniuses</i></span>
+  </header>
+
+  <!-- Main Content -->
+  <div class="flex flex-1 relative z-10 flex-col md:flex-row">
+
+    <!-- Sidebar -->
+    <aside
+      class="w-full md:w-1/3 xl:w-1/4 border-r border-gray-700 backdrop-blur-lg bg-white/10 flex flex-col items-center gap-6">
+
+      <!-- City + Date Form -->
+      <form id="weatherForm" class="w-full flex flex-col gap-5 bg-black/30 p-2 py-5 shadow-2xl border border-gray-700">
+        <div>
+          <input id="city" type="text" autocomplete="off" placeholder="Enter the city"
+            class="w-full px-3 py-2 rounded-lg bg-transparent border border-gray-500 text-white placeholder-gray-400 focus:ring-2 focus:ring-teal-400 outline-none">
+          <ul id="suggestions"
+            class="absolute mt-1 w-[94%] bg-gray-800 text-white rounded-md shadow-lg max-h-40 overflow-y-auto hidden z-50"></ul>
+
+          <!-- Error message -->
+          <div id="error" class="text-red-400 text-sm mt-2 hidden"></div>
+        </div>
+
+        <div>
+          <input id="date" type="date"
+            class="w-full px-3 py-2 rounded-lg bg-transparent border border-gray-500 text-white focus:ring-2 focus:ring-teal-400 outline-none">
+        </div>
+
+        <!-- Map -->
+        <section class="relative w-[360px] h-[384px]  rounded-2xl overflow-hidden border border-gray-600 mt-2 mx-auto">
+          <img src="/static/lk.svg" alt="Sri Lanka Map" class="w-full h-full object-contain">
+          <div id="cityMarker"
+            class="w-2 h-2 bg-red-500 rounded-full border ring-1 ring-yellow-300 border-white shadow-md absolute animate-pulse"
+            style="display:none;"></div>
+        </section>
+
+        <!-- Button -->
+        <button type="submit"
+          class="w-full mt-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-semibold rounded-lg shadow-md hover:opacity-90 transition-all">
+          Get Prediction
+        </button>
+      </form>
+    </aside>
+
+    <!-- Prediction Section -->
+    <main class="flex-1 flex flex-col gap-6 md:p-10 lg:mt-20">
+      <section id="predictionSection"
+        class="backdrop-blur-lg bg-white/10 md:rounded-3xl p-6 shadow-2xl flex flex-col gap-6">
+        <div class="flex flex-col lg:flex-row lg:justify-between items-start">
+          <h2 class="text-2xl sm:text-3xl font-semibold drop-shadow-lg flex items-center gap-3">
+            <span class="material-symbols-outlined text-blue-400">cloud</span>
+            Prediction Results
+          </h2>
+
+          <div id="cityInfo"
+            class="text-gray-300 font-medium text-sm sm:text-base text-center text-teal-300 lg:text-right mt-2 lg:mt-0 border bordrer-green-600 bg-slate-700 px-3 py-1 rounded-2xl">
+            City on Date
+          </div>
+        </div>
+
+        <!-- Prediction Grid -->
+        <div id="predictionGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div
+            class="flex flex-col items-center justify-center gap-3 backdrop-blur-md bg-gradient-to-tr from-red-400/20 to-red-600/20 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-4xl text-red-400">thermometer</span>
+            <div class="text-gray-200 font-medium">Temperature</div>
+            <div class="text-xl sm:text-2xl font-bold" id="temp_mean">-- °C</div>
+          </div>
+
+          <div
+            class="flex flex-col items-center justify-center gap-3 backdrop-blur-md bg-gradient-to-tr from-blue-400/20 to-blue-600/20 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-4xl text-blue-400">water_drop</span>
+            <div class="text-gray-200 font-medium">Precipitation</div>
+            <div class="text-xl sm:text-2xl font-bold" id="precip_sum">-- mm</div>
+          </div>
+
+          <div
+            class="flex flex-col items-center justify-center gap-3 backdrop-blur-md bg-gradient-to-tr from-indigo-400/20 to-indigo-600/20 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-4xl text-indigo-400">rainy</span>
+            <div class="text-gray-200 font-medium">Rain</div>
+            <div class="text-xl sm:text-2xl font-bold" id="rain_sum">-- mm</div>
+          </div>
+
+          <div
+            class="flex flex-col items-center justify-center gap-3 backdrop-blur-md bg-gradient-to-tr from-green-400/20 to-green-600/20 rounded-2xl p-6 shadow-lg hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-4xl text-green-400">windy</span>
+            <div class="text-gray-200 font-medium">Wind Speed</div>
+            <div class="text-xl sm:text-2xl font-bold" id="wind_speed_max">-- km/h</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer
+    class="relative z-10 text-center py-4 border-t border-gray-700 text-gray-400 bg-black/40 backdrop-blur-md">
+    © 2025 Weather MI System — The Gradient Geniuses
+  </footer>
+
+  <!-- <script src="../static/script.js"></script> -->
+   <script>
+    
+const cityCoords = {
+  "Colombo": { x: 31.11, y: 74.48 }, "Gampaha": { x: 31.38, y: 68.75 }, "Kalutara": { x: 33.88, y: 81.51 },
+  "Kandy": { x: 50.28, y: 63.80 }, "Matale": { x: 47.50, y: 55.47 }, "Nuwara Eliya": { x: 47.78, y: 72.40 },
+  "Galle": { x: 37.78, y: 88.54 }, "Matara": { x: 45.56, y: 90.10 }, "Hambantota": { x: 57.50, y: 86.72 },
+  "Jaffna": { x: 34.17, y: 10.68 }, "Kilinochchi": { x: 37.22, y: 18.75 }, "Mannar": { x: 34.17, y: 29.17 },
+  "Vavuniya": { x: 43.61, y: 28.13 }, "Mullaitivu": { x: 46.67, y: 19.79 }, "Batticaloa": { x: 66.67, y: 51.04 },
+  "Ampara": { x: 73.06, y: 66.41 }, "Trincomalee": { x: 56.94, y: 32.81 }, "Kurunegala": { x: 36.94, y: 54.69 },
+  "Puttalam": { x: 29.72, y: 52.34 }, "Anuradhapura": { x: 43.06, y: 37.24 }, "Polonnaruwa": { x: 56.94, y: 47.14 },
+  "Badulla": { x: 57.22, y: 71.35 }, "Moneragala": { x: 65.28, y: 74.48 }, "Ratnapura": { x: 45.83, y: 81.25 },
+  "Kegalle": { x: 39.72, y: 69.01 }
+};
+
+const cityInput = document.getElementById("city");
+const dateInput = document.getElementById("date");
+const suggestionsList = document.getElementById("suggestions");
+const cityMarker = document.getElementById("cityMarker");
+const errorDiv = document.getElementById("error");
+
+// Today's date
+const today = new Date();
+dateInput.value = today.toISOString().split('T')[0];
+
+// Update city marker
+function updateCityMarker(city) {
+  if (cityCoords[city]) {
+    const coords = cityCoords[city];
+    cityMarker.style.left = `calc(${coords.x}% - 0.5rem)`;
+    cityMarker.style.top = `calc(${coords.y}% - 0.5rem)`;
+    cityMarker.style.display = "block";
+  } else cityMarker.style.display = "none";
+}
+
+// City suggestions
+cityInput.addEventListener("input", () => {
+  const val = cityInput.value.trim().toLowerCase();
+  suggestionsList.innerHTML = "";
+  if (!val) return suggestionsList.classList.add("hidden");
+  const filtered = Object.keys(cityCoords).filter(c => c.toLowerCase().includes(val));
+  if (!filtered.length) return suggestionsList.classList.add("hidden");
+  suggestionsList.classList.remove("hidden");
+  filtered.forEach(city => {
+    const li = document.createElement("li");
+    li.textContent = city;
+    li.className = "px-3 py-2 cursor-pointer hover:bg-gray-700";
+    li.onclick = () => {
+      cityInput.value = city;
+      suggestionsList.classList.add("hidden");
+      updateCityMarker(city);
+    };
+    suggestionsList.appendChild(li);
+  });
+});
+
+document.addEventListener("click", e => {
+  if (!cityInput.contains(e.target)) suggestionsList.classList.add("hidden");
+});
+
+// Fetch prediction
+async function fetchPrediction(city, date) {
+  try {
+    const res = await fetch("/predict", {
+      method: "POST",
+      body: new URLSearchParams({ city_name: city, date })
+    });
+    const data = await res.json();
+    if (data.error) {
+      showError(data.error);
+      return;
+    }
+    errorDiv.classList.add("hidden");
+    document.getElementById("temp_mean").textContent = `${data.prediction.temp_mean} °C`;
+    document.getElementById("precip_sum").textContent = `${data.prediction.precip_sum} mm`;
+    document.getElementById("rain_sum").textContent = `${data.prediction.rain_sum} mm`;
+    document.getElementById("wind_speed_max").textContent = `${data.prediction.wind_speed_max} km/h`;
+    document.getElementById("cityInfo").textContent = `${city} on ${date}`;
+    updateCityMarker(city);
+  } catch (err) {
+    showError("Server error. Please try again later.");
+  }
+}
+
+// Error display helper
+function showError(msg) {
+  errorDiv.textContent = msg;
+  errorDiv.classList.remove("hidden");
+}
+
+// Handle form submit
+document.getElementById("weatherForm").onsubmit = e => {
+  e.preventDefault();
+  const city = cityInput.value.trim();
+  const date = dateInput.value.trim();
+
+  if (!city || !cityCoords[city]) {
+    showError("Please enter a valid city.");
+    return;
+  }
+  if (!date) {
+    showError("Please select a valid date.");
+    return;
+  }
+
+  fetchPrediction(city, date);
+};
+
+// Initial load
+fetchPrediction("Jaffna", dateInput.value);
+   </script>
+</body>
+
+</html>
